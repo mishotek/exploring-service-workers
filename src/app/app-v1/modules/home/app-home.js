@@ -15,46 +15,74 @@ export class AppHome extends LitElement {
             :host {
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-            }
-                
-            .articles {
-                display: flex;
-                flex-direction: column;
                 padding: var(--space-small) var(--space-tiny);
                 max-width: 600px;
+            }
+            
+            .article {
+                margin-bottom: var(--space-small);
             }
         `;
     }
 
     render() {
         // language=html
-        return html`
-            <div class="articles">
-                <app-article-card img-url="https://images.unsplash.com/photo-1578307870387-edd3bcf5a976?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=964&q=80">
-                    <span slot="title">
-                        UK rolls out Oxford-AstraZeneca vaccine as it battles against Covid surge
-                    </span>
-                    <span slot="subtitle">
-                        The New York Times • 13 hours ago
-                    </span>
-                    <span slot="text">
-                        LONDON — The U.K. has started rolling out the coronavirus vaccine developed by AstraZeneca and the University of Oxford, marking another step in its battle against the coronavirus pandemic.
-                    </span>
-                    
-                    <lit-button
-                            type="${LitButtonTypes.Text}"
-                            slot="actions"
-                            @click="${() => this._openArticle(1)}">
-                        read more
-                    </lit-button>
-                </app-article-card>
-            </div>
-        `;
+        return this._articles.map((article) => html`
+            <app-article-card class="article" img-url="${article.img}">
+                <span slot="title">
+                    ${article.title}
+                </span>
+                <span slot="subtitle">
+                    ${article.subtitle}
+                </span>
+                
+                <span slot="text">${article.text}</span>
+                
+                <lit-button
+                        type="${LitButtonTypes.Text}"
+                        slot="actions"
+                        @click="${() => this._openArticle(article.id)}">
+                    read more
+                </lit-button>
+            </app-article-card>
+        `);
+    }
+
+    static get properties() {
+        return {
+            _articles: {
+                type: Array,
+            },
+        };
+    }
+
+    constructor() {
+        super();
+        this._articles = [];
+    }
+
+    firstUpdated(_changedProperties) {
+        super.firstUpdated(_changedProperties);
+        this._getArticles();
     }
 
     _openArticle(id) {
         Router.navigate(`/article/${id}`);
+    }
+
+    async _getArticles() {
+        try {
+            const response = await fetch('http://localhost:3000/api/articles');
+            const data = await response.json();
+            if (Array.isArray(data.data)) {
+                this._articles = data.data.map((article) => ({
+                    ...article,
+                    text: `${article.text[0].substring(0, 120)}...`,
+                }));
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
 }
 
