@@ -1,7 +1,6 @@
 import {css, html, LitElement} from "lit-element";
 import 'lit-elem-components/public/lit-card-base/lit-card-base';
 import 'lit-elem-components/public/lit-font/lit-font';
-import {ifDefined} from "lit-html/directives/if-defined";
 import {LitFontTypes} from "lit-elem-components/public/lit-font/lit-font-types";
 import {styleMap} from "lit-html/directives/style-map";
 

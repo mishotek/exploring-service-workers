@@ -2,6 +2,7 @@ import {html, css, LitElement} from "lit-element";
 import '../../components/app-article-card/app-article-card';
 import 'lit-elem-components/public/lit-button/lit-button';
 import {LitButtonTypes} from "lit-elem-components/public/lit-button/lit-button-types";
+import {Router} from "lit-elem-router/public/router";
 
 export class AppHome extends LitElement {
     static get is() {
@@ -11,10 +12,17 @@ export class AppHome extends LitElement {
     static get styles() {
         // language=css
         return css`
+            :host {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+                
             .articles {
                 display: flex;
                 flex-direction: column;
-                padding: var(--space-tiny);
+                padding: var(--space-small) var(--space-tiny);
+                max-width: 600px;
             }
         `;
     }
@@ -34,12 +42,19 @@ export class AppHome extends LitElement {
                         LONDON — The U.K. has started rolling out the coronavirus vaccine developed by AstraZeneca and the University of Oxford, marking another step in its battle against the coronavirus pandemic.
                     </span>
                     
-                    <lit-button type="${LitButtonTypes.Text}" slot="actions">
+                    <lit-button
+                            type="${LitButtonTypes.Text}"
+                            slot="actions"
+                            @click="${() => this._openArticle(1)}">
                         read more
                     </lit-button>
                 </app-article-card>
             </div>
         `;
+    }
+
+    _openArticle(id) {
+        Router.navigate(`/article/${id}`);
     }
 }
 
