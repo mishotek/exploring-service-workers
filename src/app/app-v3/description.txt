@@ -1,0 +1,4 @@
+Store app shell in cache
+
+1. Added caching in sw.js
+2. Serving cached resources if fetch fails

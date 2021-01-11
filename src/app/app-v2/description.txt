@@ -1,0 +1,4 @@
+With service worker that jst logs "Hello world"
+
+1. Just register sw.js in app-root.js
+2. Added console.log in sw.js
