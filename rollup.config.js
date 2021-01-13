@@ -1,5 +1,7 @@
 import resolve from '@rollup/plugin-node-resolve';
 import copy from 'rollup-plugin-copy';
+import minifyHTML from 'rollup-plugin-minify-html-literals';
+import {terser} from 'rollup-plugin-terser';
 import {Utils} from "./src/app/app-v1/utils/utils";
 
 const versions = 3;
@@ -16,6 +18,7 @@ const configs = Utils.getArrayOfLength(versions).map((index) => {
             format: 'es',
         },
         plugins: [
+            minifyHTML(),
             copy({
                 targets: [
                     { src: 'node_modules/@webcomponents', dest: `${dest}/node_modules` },
@@ -23,9 +26,11 @@ const configs = Utils.getArrayOfLength(versions).map((index) => {
                     { src: `${dir}/main.css`, dest: dest },
                     { src: `${dir}/index.html`, dest: dest },
                     { src: `${dir}/sw.js`, dest: dest },
+                    { src: `${dir}/NotoSerif-BoldItalic.ttf`, dest: dest },
                 ],
             }),
             resolve(),
+            terser(),
         ],
         preserveEntrySignatures: false,
         watch: {},

@@ -12,7 +12,7 @@ self.addEventListener('install', (event) => {
                 './main.css',
                 './app-root.js',
                 './assets/index.css',
-                'https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@1,700&display=swap',
+                './NotoSerif-BoldItalic.ttf',
                 'https://raw.githubusercontent.com/mishotek/material-icons/master/svg/menu/baseline.svg',
                 'https://raw.githubusercontent.com/mishotek/material-icons/master/svg/share/baseline.svg',
                 'https://raw.githubusercontent.com/mishotek/material-icons/master/svg/search/baseline.svg',
